@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import Comments from "./Comments";
-import Left from "./Left";
-import Right from "./Right";
+import Right from "./comman/Right";
+import Left from "./comman/Left";
 
 const Feeds = () => {
   const [postItem, setPostItem] = useState([]);
@@ -44,9 +44,9 @@ const Feeds = () => {
     callItemApi();
   }, [successPost]);
   return (
-    <div className="d-flex bg-dark">
+    <div className="d-flex">
       <Left />
-      <section className="col-8 bg-light m-2">
+      <section className="col-8 m-2" style={{ backgroundColor: "gray" }}>
         <div className="d-flex flex-column rounded text-center">
           <textarea className="m-2 border rounded" ref={text}></textarea>
           <span className="align-self-end">
@@ -64,13 +64,24 @@ const Feeds = () => {
         <div className="d-flex flex-column m-2 border border-dark rounded">
           {postItem &&
             postItem.map((item) => (
-              <div key={item.id} className="m-1 p-1 border border-dark rounded">
+              <div
+                key={item.feedid}
+                className="m-1 p-1 border border-dark rounded"
+                style={{ backgroundColor: "white" }}
+              >
                 <div>
-                  <h5>{item.name}</h5>
+                  <div className="d-flex">
+                    <img
+                      src="https://cdn-icons-png.flaticon.com/512/21/21294.png"
+                      alt="profile"
+                      style={{ height: "20px", width: "20px" }}
+                    />
+                    <p style={{ fontWeight: "bold" }}>{item.name}</p>
+                  </div>
                   {item.itemText && <p>{item.itemText}</p>}
                   {item.itemImage && <img src={item.itemImage} alt="post" />}
                 </div>
-                <Comments id={item.id} />
+                <Comments id={item.feedid} />
               </div>
             ))}
         </div>

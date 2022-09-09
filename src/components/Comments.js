@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 
-const Comments = ({ id }) => {
+const Comments = (props) => {
   const commentRef = useRef();
   const [allComments, setAllComments] = useState([]);
   const [showComments, setShowComments] = useState(false);
@@ -9,8 +9,8 @@ const Comments = ({ id }) => {
   const commentFn = async () => {
     const url = "http://localhost:4000/comments/addcomment";
     const tempObj = {};
-    tempObj.commentid = "c104";
-    tempObj.feedid = id;
+    tempObj.commentid = "c106";
+    tempObj.feedid = props.id;
     tempObj.userid = "id001";
     tempObj.name = "Subhradip Nath";
     tempObj.text = commentRef.current.value;
@@ -22,7 +22,7 @@ const Comments = ({ id }) => {
   };
 
   const loadCommentsFn = async () => {
-    const url = "http://localhost:4000/comments/search/" + id;
+    const url = "http://localhost:4000/comments/search/" + props.id;
     const response = await axios.get(url);
     if (response.status === 200) {
       setAllComments(response.data.reverse());
@@ -33,19 +33,18 @@ const Comments = ({ id }) => {
     loadCommentsFn();
   }, []);
 
-  console.log(id);
+  console.log("show id.........", props.id);
   return (
     <>
       <div className="border border-white rounded d-flex">
-        <div className="m-1 col-8">
-          <input className="form-control p-1" ref={commentRef} />
-          <button
-            className="btn btn-sm btn-outline-secondary my-1"
-            onClick={commentFn}
-          >
-            add comment
-          </button>
-        </div>
+        <input className="form-control p-1" ref={commentRef} />
+        <button
+          className="btn btn-sm btn-outline-secondary my-1"
+          onClick={commentFn}
+        >
+          <i class="fa-regular fa-paper-plane"></i>
+        </button>
+
         <button
           className="btn btn-outline-secondary m-1"
           style={{ height: "50%" }}
