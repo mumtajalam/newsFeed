@@ -3,19 +3,24 @@ import React, { useEffect, useRef, useState } from "react";
 import Comments from "./Comments";
 import Right from "./comman/Right";
 import Left from "./comman/Left";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Feeds = () => {
   const [postItem, setPostItem] = useState([]);
   const [successPost, setSuccessPost] = useState(false);
+  const navigate = useNavigate();
+  const loginData = useSelector((state) => state.login.loginDataRedux);
+  console.log("loginData.....", loginData);
   const text = useRef();
 
   const submitPost = async () => {
     if (text.current.value !== "") {
-      const url = "http://localhost:4000/feeditems/additems";
+      const url = "https://calm-meadow-38443.herokuapp.com/feeditems/additems";
       const tempObj = {};
-      tempObj.feedid = "103";
-      tempObj.userid = "id0002";
-      tempObj.name = "Subhradip Nath";
+      tempObj.feedid = "c" + parseInt(Math.random() * 10000000000000);
+      tempObj.userid = loginData.userid;
+      tempObj.name = loginData.name;
       tempObj.itemText = text.current.value;
       const response = await axios.post(url, tempObj);
       if (response.status === 201) {
@@ -30,7 +35,7 @@ const Feeds = () => {
   };
 
   const callItemApi = async () => {
-    const url = "http://localhost:4000/feeditems/allitems";
+    const url = "https://calm-meadow-38443.herokuapp.com/feeditems/allitems";
     try {
       const response = await axios.get(url);
       console.log(response);
@@ -41,6 +46,12 @@ const Feeds = () => {
   };
 
   useEffect(() => {
+    if (!loginData) {
+      navigate("/login");
+    }
+  });
+
+  useEffect(() => {
     callItemApi();
   }, [successPost]);
   return (
@@ -48,7 +59,11 @@ const Feeds = () => {
       <Left />
       <section className="col-8 m-2" style={{ backgroundColor: "gray" }}>
         <div className="d-flex flex-column rounded text-center">
-          <textarea className="m-2 border rounded" ref={text}></textarea>
+          <textarea
+            className="m-2 border rounded"
+            placeholder="what's on your mind..."
+            ref={text}
+          ></textarea>
           <span className="align-self-end">
             <button className="btn btn-sm btn-info mx-2" onClick={submitPost}>
               Post
