@@ -1,21 +1,20 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 const Comments = ({ id }) => {
   const commentRef = useRef();
   const [allComments, setAllComments] = useState([]);
-  const [showComments, setShowComments] = useState(false);
-  const [likes, setLikes] = useState([]);
-  const [success, setSuccess] = useState(false);
-
   const loginData = useSelector((state) => state.login.loginDataRedux);
+
+  const [likes, setLikes] = useState([]);
+  const [showComments, setShowComments] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const commentFn = async () => {
     const url = "https://calm-meadow-38443.herokuapp.com/comments/addcomment";
     const tempObj = {};
-    tempObj.commentid = "c" + parseInt(Math.random() * 10000000000000);
+    tempObj.commentid = "c" + parseInt(Math.random() * 100000000000);
     tempObj.feedid = id;
     tempObj.userid = loginData.userid;
     tempObj.name = loginData.name;
@@ -24,9 +23,11 @@ const Comments = ({ id }) => {
       const response = await axios.post(url, tempObj);
       if (response.status === 201) {
         setSuccess(true);
+        commentRef.current.value = "";
+        setInterval(() => {
+          setSuccess(false);
+        }, 1000);
       }
-      commentRef.current.value = "";
-      console.log(response);
     }
   };
 
@@ -48,24 +49,25 @@ const Comments = ({ id }) => {
 
   const addlikeFn = async () => {
     const url = "https://calm-meadow-38443.herokuapp.com/likes/addlikes";
-    const tempLike = {};
-    tempLike.feedid = id;
-    tempLike.userid = loginData.userid;
-    tempLike.name = loginData.name;
-    const response = await axios.post(url, tempLike);
+    const templike = {};
+    templike.feedid = id;
+    templike.name = loginData.name;
+    templike.userid = loginData.userid;
+    const response = await axios.post(url, templike);
     if (response.status === 201) {
       setSuccess(true);
       setInterval(() => {
-        setSuccess(true);
+        setSuccess(false);
       }, 1000);
     }
   };
+
   useEffect(() => {
     loadCommentsFn();
     loadLikesFn();
   }, [success]);
 
-  console.log("show id.........", id);
+  console.log(id);
   return (
     <>
       <hr />
@@ -73,23 +75,23 @@ const Comments = ({ id }) => {
         {likes.length} likes {allComments.length} comments
       </p>
       <div className="border border-white rounded d-flex">
-        <input className="form-control p-1" ref={commentRef} />
-        <button
-          className="btn btn-sm btn-outline-secondary my-1"
-          onClick={commentFn}
-        >
+        <input
+          className="txtboxItem w-100"
+          ref={commentRef}
+          placeholder="write your comment"
+        />
+        <button className=" my-1 comment-btn" onClick={commentFn}>
           <i class="fa-regular fa-paper-plane"></i>
         </button>
-
         <button
-          className="btn btn-outline-secondary m-1"
+          className=" m-1 comment-btn"
           style={{ height: "50%" }}
           onClick={addlikeFn}
         >
           <i className="fa-regular fa-heart"></i>
         </button>
         <button
-          className="btn btn-outline-secondary m-1"
+          className=" m-1 comment-btn"
           style={{ height: "50%" }}
           onClick={() => {
             setShowComments(!showComments);
@@ -103,9 +105,9 @@ const Comments = ({ id }) => {
           allComments &&
           allComments.map((comment) => (
             <div>
-              <p>
+              <p className="ms-3" style={{ fontSize: "12px" }}>
                 <span className="fw-bold">{comment.name}:</span>
-                <span> {comment.text}</span>
+                <span> "{comment.text}"</span>
               </p>
               <p></p>
             </div>
