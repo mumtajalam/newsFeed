@@ -68,7 +68,7 @@ const Comments = ({ id }) => {
     loadLikesFn();
   }, [success]);
 
-  console.log(id);
+  //console.log(id);
   return (
     <>
       <hr />
@@ -81,8 +81,12 @@ const Comments = ({ id }) => {
           ref={commentRef}
           placeholder="write your comment"
         />
-        <button className=" my-1 comment-btn" onClick={commentFn}>
-          <i class="fa-regular fa-paper-plane"></i>
+        <button
+          className=" my-1 comment-btn"
+          style={{ height: "50%" }}
+          onClick={commentFn}
+        >
+          <i class="fa-solid fa-circle-plus"></i>
         </button>
         <button
           className=" m-1 comment-btn"
