@@ -12,7 +12,7 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const loginFn = async () => {
-    const url = "http://localhost:4000/user/login";
+    const url = "https://calm-meadow-38443.herokuapp.com/user/login";
     const obj = {};
     obj.email = email.current.value;
     obj.password = password.current.value;

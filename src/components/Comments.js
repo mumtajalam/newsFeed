@@ -53,6 +53,7 @@ const Comments = ({ id }) => {
     templike.feedid = id;
     templike.name = loginData.name;
     templike.userid = loginData.userid;
+    console.log(templike);
     const response = await axios.post(url, templike);
     if (response.status === 201) {
       setSuccess(true);

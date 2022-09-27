@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import axios from "axios";
 
@@ -10,6 +10,7 @@ const Registration = () => {
   const password = useRef();
   const repassword = useRef();
   const errorRef = useRef();
+  const navigate = useNavigate();
   const [submitStatus, setSubmitstatus] = useState(false);
 
   const submitFn = async () => {
@@ -20,12 +21,14 @@ const Registration = () => {
     tempObj.email = email.current.value;
     tempObj.mobile = mobile.current.value;
     tempObj.password = password.current.value;
+
     console.log("tempobj...", tempObj);
     if (password.current.value === repassword.current.value) {
       const response = await axios.post(url, tempObj);
       console.log("respose....", response);
       if (response.status === 201) {
-        setSubmitstatus(true);
+        //setSubmitstatus(true);
+        navigate("/login");
       } else {
         errorRef.current.textContent = "Something went wrong!!";
       }
@@ -36,22 +39,6 @@ const Registration = () => {
 
   return (
     <div>
-      {submitStatus && (
-        <section className="section-bg">
-          <div className="container" data-aos="fade-up">
-            <div className="row">
-              <div className="col-12">
-                <div className="alert alert-success" role="alert">
-                  Successfully user created...
-                </div>
-                <Link to="/login" className="btn btn-dark">
-                  Login
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
       <section className="vh-100" style={{ backgroundColor: "#eee" }}>
         <div className="container h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
@@ -71,7 +58,6 @@ const Registration = () => {
                             <div className="form-outline flex-fill mb-0">
                               <input
                                 type="text"
-                                // id="form3Example1c"
                                 className="form-control"
                                 placeholder="Full Name*"
                                 ref={fullName}
@@ -85,7 +71,6 @@ const Registration = () => {
                             <div className="form-outline flex-fill mb-0">
                               <input
                                 type="text"
-                                // id="form3Example2c"
                                 className="form-control"
                                 placeholder="Mobile No."
                                 ref={mobile}
@@ -99,7 +84,6 @@ const Registration = () => {
                             <div className="form-outline flex-fill mb-0">
                               <input
                                 type="email"
-                                // id="form3Example3c"
                                 className="form-control"
                                 placeholder="Mail*"
                                 ref={email}
@@ -114,7 +98,6 @@ const Registration = () => {
                             <div className="form-outline flex-fill mb-0">
                               <input
                                 type="password"
-                                // id="form3Example4c"
                                 className="form-control"
                                 placeholder="Password*"
                                 ref={password}
@@ -128,7 +111,6 @@ const Registration = () => {
                           <div className="form-outline flex-fill mb-0">
                             <input
                               type="password"
-                              // id="form3Example4cd"
                               className="form-control"
                               placeholder="Confirm password*"
                               ref={repassword}
@@ -165,6 +147,22 @@ const Registration = () => {
           </div>
         </div>
       </section>
+      {submitStatus && (
+        <section id="" className="section-bg">
+          <div className="container" data-aos="fade-up">
+            <div className="row">
+              <div className="col-12">
+                <div className="alert alert-success" role="alert">
+                  Successfully user created...
+                </div>
+                <Link to="/login" className="btn btn-info">
+                  Proceed to Login
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 };
