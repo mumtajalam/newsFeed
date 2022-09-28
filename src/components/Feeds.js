@@ -157,7 +157,7 @@ const Feeds = () => {
                   )}
                   {item.itemImage && <img src={item.itemImage} alt="post" />}
                 </div>
-                <Comments id={item.id} />
+                <Comments id={item.feedid} />
               </div>
             ))}
         </div>
