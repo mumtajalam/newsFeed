@@ -37,10 +37,10 @@ const Feeds = () => {
     }
   };
 
-  const editFn = (feedid) => {
+  const editFn = (id) => {
     //console.log("getting feed id....", feedid);
     let newEditText = postItem.find((item) => {
-      return item.feedid === feedid;
+      return item.feedid === id;
     });
     console.log(newEditText);
     setToggleEdit(false);
@@ -63,6 +63,19 @@ const Feeds = () => {
       text.current.value = "";
     }
   };
+
+  const deleteFn = async (id) => {
+    const durl = `https://calm-meadow-38443.herokuapp.com/feeditems/deleteitem/${id}`;
+    try {
+      const response = await axios.delete(durl);
+      if (response.status === 200) {
+        callItemApi();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const callItemApi = async () => {
     const url = "https://calm-meadow-38443.herokuapp.com/feeditems/allitems";
     try {
@@ -148,7 +161,12 @@ const Feeds = () => {
                             editFn(item.feedid);
                           }}
                         ></i>
-                        <i className="fa-solid fa-trash option_icon"></i>
+                        <i
+                          className="fa-solid fa-trash option_icon"
+                          onClick={() => {
+                            deleteFn(item.feedid);
+                          }}
+                        ></i>
                       </div>
                     )}
                   </div>
