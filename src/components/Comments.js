@@ -12,7 +12,7 @@ const Comments = ({ id }) => {
   const [success, setSuccess] = useState(false);
 
   const commentFn = async () => {
-    const url = "https://calm-meadow-38443.herokuapp.com/comments/addcomment";
+    const url = "https://smiling-pike-pea-coat.cyclic.app/comments/addcomment";
     const tempObj = {};
     tempObj.commentid = "c" + parseInt(Math.random() * 100000000000);
     tempObj.feedid = id;
@@ -32,7 +32,8 @@ const Comments = ({ id }) => {
   };
 
   const loadCommentsFn = async () => {
-    const url = "https://calm-meadow-38443.herokuapp.com/comments/search/" + id;
+    const url =
+      "https://smiling-pike-pea-coat.cyclic.app/comments/search/" + id;
     const response = await axios.get(url);
     if (response.status === 200) {
       setAllComments(response.data.reverse());
@@ -40,7 +41,7 @@ const Comments = ({ id }) => {
   };
 
   const loadLikesFn = async () => {
-    const url = "https://calm-meadow-38443.herokuapp.com/likes/search/" + id;
+    const url = "https://smiling-pike-pea-coat.cyclic.app/likes/search/" + id;
     const response = await axios.get(url);
     if (response.status === 200) {
       setLikes(response.data);
@@ -48,7 +49,7 @@ const Comments = ({ id }) => {
   };
 
   const addlikeFn = async () => {
-    const url = "https://calm-meadow-38443.herokuapp.com/likes/addlikes";
+    const url = "https://smiling-pike-pea-coat.cyclic.app/likes/addlikes";
     const templike = {};
     templike.feedid = id;
     templike.name = loginData.name;

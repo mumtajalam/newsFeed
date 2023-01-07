@@ -6,6 +6,7 @@ import Left from "./comman/Left";
 
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { nanoid } from "nanoid";
 
 const Feeds = () => {
   const [postItem, setPostItem] = useState([]);
@@ -19,9 +20,9 @@ const Feeds = () => {
 
   const submitPost = async () => {
     if (text.current.value !== "") {
-      const url = "https://calm-meadow-38443.herokuapp.com/feeditems/additems";
+      const url = "https://smiling-pike-pea-coat.cyclic.app/feeditems/additems";
       const tempObj = {};
-      tempObj.feedid = "c" + parseInt(Math.random() * 10000000000000);
+      tempObj.feedid = nanoid();
       tempObj.userid = loginData.userid;
       tempObj.name = loginData.name;
       tempObj.itemText = text.current.value;
@@ -49,7 +50,7 @@ const Feeds = () => {
   };
 
   const savePost = async () => {
-    const newUrl = `https://calm-meadow-38443.herokuapp.com/feeditems/edititem/${editPost.feedid}`;
+    const newUrl = `https://smiling-pike-pea-coat.cyclic.app/feeditems/edititem/${editPost.feedid}`;
     console.log(newUrl);
     const tempObj = {};
     tempObj.feedid = editPost.feedid;
@@ -65,7 +66,7 @@ const Feeds = () => {
   };
 
   const deleteFn = async (id) => {
-    const durl = `https://calm-meadow-38443.herokuapp.com/feeditems/deleteitem/${id}`;
+    const durl = `https://smiling-pike-pea-coat.cyclic.app/feeditems/deleteitem/${id}`;
     try {
       const response = await axios.delete(durl);
       if (response.status === 200) {
@@ -77,10 +78,9 @@ const Feeds = () => {
   };
 
   const callItemApi = async () => {
-    const url = "https://calm-meadow-38443.herokuapp.com/feeditems/allitems";
+    const url = "https://smiling-pike-pea-coat.cyclic.app/feeditems/allitems";
     try {
       const response = await axios.get(url);
-      //console.log(response);
       setPostItem(response.data.reverse());
     } catch (err) {
       console.log(err);

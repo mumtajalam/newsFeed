@@ -14,7 +14,7 @@ const Registration = () => {
   const [submitStatus, setSubmitstatus] = useState(false);
 
   const submitFn = async () => {
-    const url = "https://calm-meadow-38443.herokuapp.com/user/adduser";
+    const url = "https://smiling-pike-pea-coat.cyclic.app/user/adduser";
     const tempObj = {};
     tempObj.userid = "id" + parseInt(Math.random() * 100000000000);
     tempObj.name = fullName.current.value;
